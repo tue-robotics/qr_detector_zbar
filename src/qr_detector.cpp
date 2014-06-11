@@ -6,14 +6,28 @@
 
 #include <iostream>
 
+#include <std_msgs/String.h>
+
 int main(int argc, char** argv)
 {
     ros::init(argc,argv,"sac_plane_seg");
 
     ros::NodeHandle nh;
 
+    ros::Publisher pub = nh.advertise<std_msgs::String>("qr_data_topic",0,false);
     rgbd::Client client;
-    client.intialize("/amigo/top_kinect/rgbd");
+    client.intialize("rgbd_topic");
+
+    // Takes some time to get the first image
+    ros::Duration(1.0).sleep();
+
+    ros::Rate r_init(.5);
+    while (!client.nextImage() && ros::ok()) {
+        ROS_WARN("[QR Detector] : No RGBD image available, is the rgbd server running?");
+        r_init.sleep();
+    }
+
+    ROS_INFO("[QR Detector] : RGBD Server is running; we are getting images - Throw me some QR Codes :)");
 
     // Create a zbar reader
     zbar::ImageScanner scanner;
@@ -21,19 +35,17 @@ int main(int argc, char** argv)
     // Configure the reader
     scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
 
-    std::cout << "init" << std::endl;
-
     ros::Rate r(30);
     while (ros::ok())
     {
         r.sleep();
 
-        std::cout << "loop" << std::endl;
-
         //! Only perform hook if a new image is available
         rgbd::RGBDImageConstPtr image = client.nextImage();
-        if (!image)
+        if (!image) {
+            ROS_DEBUG("[QR Detector] : NO RGBD Image available..");
             continue;
+        }
 
         const cv::Mat& rgb_image = image->getRGBImage();
 
@@ -54,42 +66,12 @@ int main(int argc, char** argv)
         scanner.scan(zbar_image);
 
         // Extract results
-        int counter = 0;
         for (zbar::Image::SymbolIterator symbol = zbar_image.symbol_begin(); symbol != zbar_image.symbol_end(); ++symbol) {
+            std_msgs::String s;
+            s.data = symbol->get_data();
+            pub.publish(s);
 
-
-
-            // do something useful with results
-            std::cout    << "decoded " << symbol->get_type_name()
-                    << " symbol \"" << symbol->get_data() << '"' <<std::endl;
-
-//            //cout << "Location: (" << symbol->get_location_x(0) << "," << symbol->get_location_y(0) << ")" << endl;
-//            //cout << "Size: " << symbol->get_location_size() << endl;
-
-//            // Draw location of the symbols found
-//            if (symbol->get_location_size() == 4) {
-//                //rectangle(frame, Rect(symbol->get_location_x(i), symbol->get_location_y(i), 10, 10), Scalar(0, 255, 0));
-//                line(frame, Point(symbol->get_location_x(0), symbol->get_location_y(0)), Point(symbol->get_location_x(1), symbol->get_location_y(1)), Scalar(0, 255, 0), 2, 8, 0);
-//                line(frame, Point(symbol->get_location_x(1), symbol->get_location_y(1)), Point(symbol->get_location_x(2), symbol->get_location_y(2)), Scalar(0, 255, 0), 2, 8, 0);
-//                line(frame, Point(symbol->get_location_x(2), symbol->get_location_y(2)), Point(symbol->get_location_x(3), symbol->get_location_y(3)), Scalar(0, 255, 0), 2, 8, 0);
-//                line(frame, Point(symbol->get_location_x(3), symbol->get_location_y(3)), Point(symbol->get_location_x(0), symbol->get_location_y(0)), Scalar(0, 255, 0), 2, 8, 0);
-//            }
-
-//            // Get points
-//            /*for (Symbol::PointIterator point = symbol.point_begin(); point != symbol.point_end(); ++point) {
-//                cout << point << endl;
-//            } */
-            counter++;
+            ROS_INFO_STREAM("[QR Detector] : Found marker with data: '\e[101m" << s.data << "\e[0m'");
         }
-
-        // Show captured frame, now with overlays!
-        imshow("captured", rgb_image);
-
-        // clean up
-//        image.set_data(NULL, 0);
-
-        cv::waitKey(30);
-
-        std::cout << "Loop took " << r.cycleTime() << std::endl;
     }
 }
