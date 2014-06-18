@@ -7,6 +7,8 @@ namespace qr_detector_zbar
 
 void getQrCodes(const cv::Mat& rgb_image, std::map<std::string,geo::Pose3D>& data)
 {
+    if (rgb_image.rows == 0 || rgb_image.cols == 0) return;
+
     // Create a zbar reader
     zbar::ImageScanner scanner;
 
