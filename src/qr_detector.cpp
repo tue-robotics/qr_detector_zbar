@@ -1,11 +1,7 @@
+#include "qr_detector_zbar/qr_detector_zbar.h"
+
 #include <ros/ros.h>
 #include <rgbd_transport/Client.h>
-
-#include <opencv2/highgui/highgui.hpp>
-#include <zbar.h>
-
-#include <iostream>
-
 #include <std_msgs/String.h>
 
 int main(int argc, char** argv)
@@ -29,12 +25,6 @@ int main(int argc, char** argv)
 
     ROS_INFO("[QR Detector] : RGBD Server is running; we are getting images - Throw me some QR Codes :)");
 
-    // Create a zbar reader
-    zbar::ImageScanner scanner;
-
-    // Configure the reader
-    scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
-
     ros::Rate r(30);
     while (ros::ok())
     {
@@ -47,28 +37,13 @@ int main(int argc, char** argv)
             continue;
         }
 
-        const cv::Mat& rgb_image = image->getRGBImage();
-
-        cv::Mat frame_grayscale;
-
-        // Convert to grayscale
-        cv::cvtColor(rgb_image, frame_grayscale, CV_BGR2GRAY);
-
-        // Obtain image data
-        int width = frame_grayscale.cols;
-        int height = frame_grayscale.rows;
-        uchar *raw = (uchar *)(frame_grayscale.data);
-
-        // Wrap image data
-        zbar::Image zbar_image(width, height, "Y800", raw, width * height);
-
-        // Scan the image for barcodes
-        scanner.scan(zbar_image);
+        std::map<std::string,geo::Pose3D> data;
+        qr_detector_zbar::getQrCodes(image->getRGBImage(),data);
 
         // Extract results
-        for (zbar::Image::SymbolIterator symbol = zbar_image.symbol_begin(); symbol != zbar_image.symbol_end(); ++symbol) {
+        for (std::map<std::string,geo::Pose3D>::const_iterator it = data.begin(); it != data.end(); ++it) {
             std_msgs::String s;
-            s.data = symbol->get_data();
+            s.data = it->first;
             pub.publish(s);
 
             ROS_INFO_STREAM("[QR Detector] : Found marker with data: '\e[101m" << s.data << "\e[0m'");
