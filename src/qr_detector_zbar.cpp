@@ -32,9 +32,9 @@ void getQrCodes(const cv::Mat& rgb_image, std::map<std::string,geo::Pose3D>& dat
     for (zbar::Image::SymbolIterator symbol = zbar_image.symbol_begin(); symbol != zbar_image.symbol_end(); ++symbol) {
         data[symbol->get_data()] = geo::Pose3D(0,0,0);
 
-        for (zbar::Symbol::PointIterator point = symbol->point_begin(); point != symbol->point_end(); ++point) {
-//            std::cout << (*point).x << std::endl;
-        }
+//        for (zbar::Symbol::PointIterator point = symbol->point_begin(); point != symbol->point_end(); ++point) {
+////            std::cout << (*point).x << std::endl;
+//        }
     }
 }
 
