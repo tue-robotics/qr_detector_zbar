@@ -6,12 +6,6 @@
 namespace qr_detector_zbar
 {
 
-// Create a zbar reader
-zbar::ImageScanner scanner;
-
-// Configure the reader
-//scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
-
 void getQrCodesWithPose(const rgbd::RGBDImage& rgbd_image, std::map<std::string,geo::Pose3D>& data)
 {
     const cv::Mat& rgb_image = rgbd_image.getRGBImage();
@@ -29,6 +23,12 @@ void getQrCodesWithPose(const rgbd::RGBDImage& rgbd_image, std::map<std::string,
 
     // Wrap image data
     zbar::Image zbar_image(width, height, "Y800", raw, width * height);
+
+    // Create a zbar reader
+    zbar::ImageScanner scanner;
+
+    // Configure the reader
+    scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
 
     // Scan the image for barcodes
     scanner.scan(zbar_image);
@@ -106,6 +106,12 @@ void getQrCodes(const rgbd::RGBDImage& rgbd_image, std::vector<std::string>& dat
 
     // Wrap image data
     zbar::Image zbar_image(width, height, "Y800", raw, width * height);
+
+    // Create a zbar reader
+    zbar::ImageScanner scanner;
+
+    // Configure the reader
+    scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
 
     // Scan the image for barcodes
     scanner.scan(zbar_image);
