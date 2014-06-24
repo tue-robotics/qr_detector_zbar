@@ -24,8 +24,9 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #common commands for building c++ executables and libraries
 rosbuild_add_library(${PROJECT_NAME} src/qr_detector_zbar.cpp)
 target_link_libraries(${PROJECT_NAME} /usr/lib/libzbar.so)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
+
 rosbuild_add_executable(qr_detector src/qr_detector.cpp)
 target_link_libraries(qr_detector ${PROJECT_NAME})
-#target_link_libraries(example ${PROJECT_NAME})
+
+rosbuild_add_executable(test_qr test/test_qr.cpp)
+target_link_libraries(test_qr ${PROJECT_NAME})

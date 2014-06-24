@@ -37,13 +37,14 @@ int main(int argc, char** argv)
             continue;
         }
 
-        std::map<std::string,geo::Pose3D> data;
-        qr_detector_zbar::getQrCodes(image->getRGBImage(),data);
+        std::vector<std::string> data;
+        qr_detector_zbar::getQrCodes(*image,data);
 
         // Extract results
-        for (std::map<std::string,geo::Pose3D>::const_iterator it = data.begin(); it != data.end(); ++it) {
+        for (std::vector<std::string>::const_iterator it = data.begin(); it != data.end(); ++it) {
             std_msgs::String s;
-            s.data = it->first;
+            s.data = *it;
+
             pub.publish(s);
 
             ROS_INFO_STREAM("[QR Detector] : Found marker with data: '\e[101m" << s.data << "\e[0m'");
