@@ -7,8 +7,10 @@
 
 namespace qr_detector_zbar {
 
-void getQrCodesWithPose(const rgbd::RGBDImage& rgbd_image, std::map<std::string,geo::Pose3D>& data);
-void getQrCodes(const rgbd::RGBDImage& rgbd_image, std::vector<std::string>& data);
+void getQrCodes(const cv::Mat& rgb_image, std::map<std::string, std::vector<cv::Point2i> >& data);
+
+bool get3DCornerPoints(const cv::Mat& depth_image, const geo::DepthCamera& rasterizer, const std::vector<cv::Point2i>& pts, std::vector<geo::Vector3>& v, unsigned int scale = 1);
+bool getPoseFromCornerPoints(const cv::Mat& depth_image, const geo::DepthCamera& rasterizer, const std::vector<cv::Point2i>& pts, geo::Pose3D& pose, unsigned int scale = 1);
 
 }
 
