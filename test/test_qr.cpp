@@ -1,7 +1,7 @@
 #include "qr_detector_zbar/qr_detector_zbar.h"
 
 #include <ros/ros.h>
-#include <rgbd_transport/Client.h>
+#include <rgbd/Client.h>
 #include <std_msgs/String.h>
 #include <tf/transform_broadcaster.h>
 
@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
 
     rgbd::Client client;
-    client.intialize("rgbd_topic");
+    client.intialize("rgbd");
 
     // Takes some time to get the first image
     ros::Duration(1.0).sleep();
@@ -33,7 +33,7 @@ int main(int argc, char** argv)
         r.sleep();
 
         //! Only perform hook if a new image is available
-        rgbd::RGBDImageConstPtr image = client.nextImage();
+        rgbd::ImageConstPtr image = client.nextImage();
         if (!image) {
             ROS_DEBUG("[QR Detector] : NO RGBD Image available..");
             continue;
@@ -46,17 +46,6 @@ int main(int argc, char** argv)
         for (std::map<std::string, std::vector<cv::Point2i> >::const_iterator it = data.begin(); it != data.end(); ++it) {
 
             ROS_INFO_STREAM("1 [QR Detector] : Found marker with pose and data: '\e[101m" << it->first << "\e[0m' -- tf being published");
-
-            geo::Pose3D pose;
-            qr_detector_zbar::getPoseFromCornerPoints(image->getDepthImage(),image->getRasterizer(),it->second,pose);
-
-            tf::StampedTransform t;
-            t.frame_id_ = image->getFrameID();
-            t.stamp_ = ros::Time::now();
-            t.child_frame_id_ = it->first;
-            t.setRotation(pose.getRotation());
-            t.setOrigin(pose.getOrigin());
-            br.sendTransform(t);
 
         }
 
