@@ -7,7 +7,7 @@
     <arg unless="$(arg gdb)" name="launch-prefix" value=""/>
 
     <node pkg="qr_detector_zbar" type="qr_detector" respawn="false" name="qr_data_publisher" output="screen" launch-prefix="$(arg launch-prefix)">
-        <remap from="rgbd_topic" to="/amigo/top_kinect/rgbd" />
+        <remap from="rgbd" to="/amigo/top_kinect/rgbd" />
         <remap from="qr_data_topic" to="/qr_marker" />
 
     </node>
