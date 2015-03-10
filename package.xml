@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <name>qr_detector_zbar</name>
+  <version>0.0.0</version>
+  <description>The qr detector package =D</description>
+
+  <maintainer email="r.p.w.appeldoorn@alumnus.tue.nl">Rein Appeldoorn</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rgbd</build_depend>
+  <run_depend>rgbd</run_depend>
+</package>
