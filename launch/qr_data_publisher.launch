@@ -6,10 +6,9 @@
     <arg if="$(arg gdb)" name="launch-prefix" value="gdb -ex run --args"/>
     <arg unless="$(arg gdb)" name="launch-prefix" value=""/>
 
-    <node pkg="qr_detector_zbar" type="qr_detector" respawn="false" name="qr_data_publisher" output="screen" launch-prefix="$(arg launch-prefix)">
+    <node pkg="qr_detector_zbar" type="qr_detector_zbar_node" respawn="false" name="qr_data_publisher" output="screen" launch-prefix="$(arg launch-prefix)">
         <remap from="rgbd" to="/amigo/top_kinect/rgbd" />
         <remap from="qr_data_topic" to="/qr_marker" />
-
     </node>
 
 </launch>
