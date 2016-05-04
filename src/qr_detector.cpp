@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 
     ROS_INFO("[QR Detector] : RGBD Server is running; we are getting images - Throw me some QR Codes :)");
 
-    ros::Rate r(30);
+    ros::Rate r(2);
     while (ros::ok())
     {
         r.sleep();
