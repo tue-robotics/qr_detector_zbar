@@ -1,7 +1,7 @@
 #ifndef qr_detector_zbar_H_
 #define qr_detector_zbar_H_
 
-#include <opencv/cv.h>
+#include <opencv2/core.hpp>
 #include <geolib/datatypes.h>
 #include <rgbd/Image.h>
 
