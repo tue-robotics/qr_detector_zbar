@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
 )
+find_package(zbar REQUIRED)
 
 set(_opencv_version 4)
 find_package(OpenCV 4 QUIET)
