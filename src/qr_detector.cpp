@@ -1,7 +1,7 @@
 #include "qr_detector_zbar/qr_detector_zbar.h"
 
 #include <ros/ros.h>
-#include <rgbd/Client.h>
+#include <rgbd/client.h>
 #include <std_msgs/String.h>
 
 int main(int argc, char** argv)
