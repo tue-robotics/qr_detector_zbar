@@ -12,7 +12,7 @@ void getQrCodes(const cv::Mat& rgb_image, std::map<std::string, std::vector<cv::
 
     // Convert to grayscale
     cv::Mat frame_grayscale;
-    cv::cvtColor(rgb_image, frame_grayscale, CV_BGR2GRAY);
+    cv::cvtColor(rgb_image, frame_grayscale, cv::COLOR_BGRA2GRAY);
 
     // Obtain image data
     int width = frame_grayscale.cols;
