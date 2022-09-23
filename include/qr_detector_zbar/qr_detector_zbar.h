@@ -2,7 +2,6 @@
 #define qr_detector_zbar_H_
 
 #include <opencv2/core.hpp>
-#include <geolib/datatypes.h>
 #include <rgbd/Image.h>
 
 namespace qr_detector_zbar {
