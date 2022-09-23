@@ -9,6 +9,9 @@
   <license>TODO</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  
+  <depend>libopencv-dev</depend>
+  
   <build_depend>rgbd</build_depend>
   <run_depend>rgbd</run_depend>
 </package>
