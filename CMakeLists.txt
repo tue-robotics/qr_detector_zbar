@@ -6,7 +6,8 @@ add_compile_options(-Wextra -Werror=extra)
 
 find_package(catkin REQUIRED COMPONENTS
   rgbd
-  message_generation
+  roscpp
+  std_msgs
 )
 
 set(_opencv_version 4)
@@ -28,6 +29,8 @@ find_package(OpenCV ${_opencv_version} REQUIRED
 ###################################
 catkin_package(
   INCLUDE_DIRS include
+  CATKIN_DEPENDS rgbd
+  DEPENDS OpenCV
 )
 
 ###########
