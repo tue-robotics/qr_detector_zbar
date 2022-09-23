@@ -20,7 +20,6 @@ find_package(OpenCV ${_opencv_version} REQUIRED
   COMPONENTS
     opencv_core
     opencv_imgproc
-    opencv_imgcodecs
   CONFIG
 )
 
