@@ -41,11 +41,12 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${zbar_INVLUDE_DIRS}
 )
 
 # - - - - - - - - - - - - - - - - - TOOLS - - - - - - - - - - - - - - - - -
 add_library(${PROJECT_NAME} src/qr_detector_zbar.cpp)
-target_link_libraries(${PROJECT_NAME} /usr/lib/libzbar.so)
+target_link_libraries(${PROJECT_NAME} zbar)
 
 add_executable(qr_detector_zbar_node src/qr_detector.cpp)
 target_link_libraries(qr_detector_zbar_node ${PROJECT_NAME} ${catkin_LIBRARIES})
