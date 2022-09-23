@@ -1,7 +1,7 @@
 #include "qr_detector_zbar/qr_detector_zbar.h"
 
 #include <zbar.h>
-#include <opencv/highgui.h>
+#include <opencv2/imgproc.hpp>
 
 namespace qr_detector_zbar
 {
@@ -44,6 +44,5 @@ void getQrCodes(const cv::Mat& rgb_image, std::map<std::string, std::vector<cv::
         data[symbol->get_data()] = pts;
     }
 }
-
 
 }
