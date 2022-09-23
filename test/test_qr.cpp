@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
 
     rgbd::Client client;
-    client.intialize("rgbd");
+    client.initialize("rgbd");
 
     // Takes some time to get the first image
     ros::Duration(1.0).sleep();
