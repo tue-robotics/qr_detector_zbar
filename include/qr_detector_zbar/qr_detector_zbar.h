@@ -2,7 +2,7 @@
 #define qr_detector_zbar_H_
 
 #include <opencv2/core.hpp>
-#include <rgbd/Image.h>
+#include <rgbd/image.h>
 
 namespace qr_detector_zbar {
 
