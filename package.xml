@@ -15,7 +15,10 @@
   
   <depend>libopencv-dev</depend>
   
-  <build_depend>rgbd</build_depend>
-  <exec_depend>rgbd</exec_depend>
+  <depend>rgbd</depend>
+  <depend>roscpp</depend>
+  
+  <build_depend>std_msgs</build_depend>
+  <exec_depend>std_msgs</exec_depend>
 
 </package>
