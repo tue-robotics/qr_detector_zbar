@@ -1,7 +1,7 @@
 #include "qr_detector_zbar/qr_detector_zbar.h"
 
 #include <ros/ros.h>
-#include <rgbd/Client.h>
+#include <rgbd/client.h>
 #include <std_msgs/String.h>
 
 int main(int argc, char** argv)
@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 
     ros::Publisher pub = nh.advertise<std_msgs::String>("qr_data_topic",0,false);
     rgbd::Client client;
-    client.intialize("rgbd");
+    client.initialize("rgbd");
 
     // Takes some time to get the first image
     ros::Duration(1.0).sleep();

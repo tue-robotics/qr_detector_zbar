@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<package>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>qr_detector_zbar</name>
   <version>0.0.0</version>
   <description>The qr detector package =D</description>
@@ -9,6 +12,16 @@
   <license>TODO</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>rgbd</build_depend>
-  <run_depend>rgbd</run_depend>
+  
+  <depend>libopencv-dev</depend>
+  
+  <depend>rgbd</depend>
+  <depend>roscpp</depend>
+  
+  <build_depend>std_msgs</build_depend>
+  <build_depend>zbar</build_depend>
+
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>zbar</exec_depend>
+
 </package>
